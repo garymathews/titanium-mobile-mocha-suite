@@ -8,9 +8,6 @@ import Test from './es6.class.js';
 
 const SUCCESS = 'SUCCESS!';
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
-
 describe('ES6 Class', function () {
 
 	it('imported class', function () {

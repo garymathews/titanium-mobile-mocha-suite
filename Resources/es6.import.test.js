@@ -10,9 +10,6 @@ import { testExport } from './es6.module';
 
 const SUCCESS = 'SUCCESS!';
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
-
 describe('ES6 Import', function () {
 
 	it('imported module', function () {
