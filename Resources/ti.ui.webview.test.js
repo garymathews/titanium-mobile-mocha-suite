@@ -460,12 +460,12 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	it.ios('sslerror', function (finish) {
+	it.windowsMissing('sslerror', function (finish) {
 		var webView;
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://httpbin.org/basic-auth/user/password'
+			url: 'https://expired.badssl.com/'
 		});
 
 		webView.addEventListener('sslerror', function () {
@@ -516,16 +516,23 @@ describe('Titanium.UI.WebView', function () {
 			finish(e);
 		});
 
+		webView.addEventListener('error', function () {
+			setTimeout(() => {
+				console.warn('failed to load url, retrying...');
+				webView.url = webView.url; // eslint-disable-line no-self-assign
+			}, 5000);
+		});
+
 		win.add(webView);
 		win.open();
 	});
 
-	it.ios('ignoreSslError', function (finish) {
+	it.windowsMissing('ignoreSslError', function (finish) {
 		var webView;
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://httpbin.org/basic-auth/user/password',
+			url: 'https://expired.badssl.com/',
 			ignoreSslError: true
 		});
 
