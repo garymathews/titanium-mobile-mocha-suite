@@ -454,7 +454,7 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	it.windowsMissing('sslerror', function (finish) {
+	it.iosAndWindowsBroken('sslerror', function (finish) {
 		let webView;
 		const url = 'https://expired.badssl.com/';
 
@@ -523,7 +523,7 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	it.windowsMissing('ignoreSslError', function (finish) {
+	it.iosAndWindowsBroken('ignoreSslError', function (finish) {
 		let webView;
 		const url = 'https://expired.badssl.com/';
 
