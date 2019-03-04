@@ -350,18 +350,12 @@ describe('Titanium.UI.WebView', function () {
 
 		webView.addEventListener('load', function () {
 			should(webView.zoomLevel).be.a.Number;
-			should(webView.getZoomLevel).be.a.Function;
-			should(webView.setZoomLevel).be.a.Function;
-
-			should(webView.zoomLevel).eql(1.0);
-			should(webView.getZoomLevel()).eql(1.0);
 
 			setTimeout(function () {
 				webView.zoomLevel = 3.0;
 				should(webView.zoomLevel).eql(3.0);
-				should(webView.getZoomLevel()).eql(3.0);
 				setTimeout(function () {
-					webView.setZoomLevel(1.0);
+					webView.zoomLevel = 1.0;
 					should(webView.zoomLevel).eql(1.0);
 					finish();
 				}, 500);
@@ -461,11 +455,12 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	it.windowsMissing('sslerror', function (finish) {
-		var webView;
+		let webView;
+		const url = 'https://expired.badssl.com/';
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://expired.badssl.com/'
+			url: url
 		});
 
 		webView.addEventListener('sslerror', function () {
@@ -475,7 +470,7 @@ describe('Titanium.UI.WebView', function () {
 		webView.addEventListener('error', function () {
 			setTimeout(() => {
 				console.warn('failed to load url, retrying...');
-				webView.url = webView.url; // eslint-disable-line no-self-assign
+				webView.url = url;
 			}, 5000);
 		});
 
@@ -500,11 +495,12 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	it.ios('basicAuthentication', function (finish) {
-		var webView;
+		let webView;
+		const url = 'https://httpbin.org/basic-auth/user/password';
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://httpbin.org/basic-auth/user/password',
+			url: url,
 			basicAuthentication: { username: 'user', password: 'password' }
 		});
 
@@ -519,7 +515,7 @@ describe('Titanium.UI.WebView', function () {
 		webView.addEventListener('error', function () {
 			setTimeout(() => {
 				console.warn('failed to load url, retrying...');
-				webView.url = webView.url; // eslint-disable-line no-self-assign
+				webView.url = url;
 			}, 5000);
 		});
 
@@ -528,11 +524,12 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	it.windowsMissing('ignoreSslError', function (finish) {
-		var webView;
+		let webView;
+		const url = 'https://expired.badssl.com/';
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://expired.badssl.com/',
+			url: url,
 			ignoreSslError: true
 		});
 
@@ -540,14 +537,10 @@ describe('Titanium.UI.WebView', function () {
 			finish();
 		});
 
-		webView.addEventListener('sslerror', function (e) {
-			finish(e);
-		});
-
 		webView.addEventListener('error', function () {
 			setTimeout(() => {
 				console.warn('failed to load url, retrying...');
-				webView.url = webView.url; // eslint-disable-line no-self-assign
+				webView.url = url;
 			}, 5000);
 		});
 
