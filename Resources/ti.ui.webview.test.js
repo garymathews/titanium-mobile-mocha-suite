@@ -350,6 +350,7 @@ describe('Titanium.UI.WebView', function () {
 
 		webView.addEventListener('load', function () {
 			should(webView.zoomLevel).be.a.Number;
+			should(webView.zoomLevel).eql(1.0);
 
 			setTimeout(function () {
 				webView.zoomLevel = 3.0;
