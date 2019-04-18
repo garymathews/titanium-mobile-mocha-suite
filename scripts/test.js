@@ -152,6 +152,14 @@ function addTiAppProperties(platforms, next) {
 		// ignore end modules tag since injection above already wrote it!
 		} else if (line.indexOf('</modules>') >= 0) {
 			content.pop();
+
+			// Include mocha.test.support plugin
+			if (!tiapp_xml_string.includes('<plugins>')) {
+				content.push('\t<plugins>');
+				content.push('\t\t<plugin>mocha.test.support</plugin>');
+				content.push('\t</plugins>');
+			}
+
 		// Inject some properties used by tests!
 		// TODO Move this out to a separate file so PR could override
 		} else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
