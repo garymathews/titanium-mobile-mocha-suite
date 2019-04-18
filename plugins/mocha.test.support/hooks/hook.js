@@ -16,6 +16,7 @@ let ANDROID_SDK = process.env.ANDROID_SDK; // eslint-disable-line no-undef
 let ADB_PATH;
 
 exports.init = function (logger, config, cli) {
+	logger.info('Initialized mocha.test.support plugin');
 
 	// Obtain Android SDK used by CLI
 	if (cli.argv['android-sdk']) {
@@ -26,6 +27,7 @@ exports.init = function (logger, config, cli) {
 	ADB_PATH = path.join(ANDROID_SDK, 'platform-tools', 'adb');
 
 	cli.on('build.post.compile', function (builder, done) {
+		logger.info('mocha.test.support: build.post.compile');
 		if (builder.platformName === 'android') {
 			dismissAndroidScreenLock(logger, builder, done);
 		} else {
@@ -39,7 +41,7 @@ function adbRun(argumentArray, callback) {
 }
 
 function dismissAndroidScreenLock(logger, builder, callback) {
-	logger.log('Dismissing Android screen-lock.');
+	logger.info('Dismissing Android screen-lock...');
 	async.series([
 		function (next) {
 			// Power on the screen if currently off.
