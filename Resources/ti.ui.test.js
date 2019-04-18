@@ -100,7 +100,7 @@ describe('Titanium.UI', function () {
 		// dip -> px
 		it('returns Ti.Platform.DisplayCaps.logicalDensityFactory for 1dip to pixels', function () {
 			var logicalDensityFactor = Ti.Platform.displayCaps.logicalDensityFactor;
-			should(Ti.UI.convertUnits('1dip', Ti.UI.UNIT_PX)).be.approximately(logicalDensityFactor, 0.001);
+			should(Ti.UI.convertUnits('1dip', Ti.UI.UNIT_PX)).be.approximately(logicalDensityFactor, 0.5);
 		});
 
 		// inches -> cm

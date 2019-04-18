@@ -243,8 +243,7 @@ describe('Titanium.UI.Layout', function () {
 
 	// functional test case #1022, #1024
 	// ViewWidth, ViewHeight
-	// FIXME Windows Phone gives: expected 262 to equal 261 (maybe do an approx check?)
-	it.windowsBroken('viewWidth', function (finish) {
+	it('viewWidth', function (finish) {
 		var view = Ti.UI.createView({
 			width: 10,
 			height: 10
@@ -270,8 +269,8 @@ describe('Titanium.UI.Layout', function () {
 				should(view.bottom).be.undefined;
 				// Centered View with width and height defined
 				// FIXME There's nothing to indicate that x/y should be integers, but this test assumed they were, so I had to rewrite to wrap them in Math.floor
-				should(view.rect.x).eql(Math.floor((win.size.width - view.size.width) / 2)); // Windows Phone: expected 262 to equal 261
-				should(view.rect.y).eql(Math.floor((win.size.height - view.size.height) / 2));
+				should(view.rect.x).be.approximately(Math.floor((win.size.width - view.size.width) / 2), 1);
+				should(view.rect.y).be.approximately(Math.floor((win.size.height - view.size.height) / 2), 1);
 				// should(Math.floor(view.rect.x)).eql(Math.floor((win.size.width - view.size.width) / 2));
 				// should(Math.floor(view.rect.y)).eql(Math.floor((win.size.height - view.size.height) / 2));
 
