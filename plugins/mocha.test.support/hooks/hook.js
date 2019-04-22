@@ -26,7 +26,7 @@ exports.init = (logger, config, cli) => {
 
 	cli.on('build.post.compile', async (builder, done) => {
 		if (builder.platformName === 'android') {
-			await wakeDevices(logger, builder).catch(e => console.warn(`could not wake ${builder.deviceId}: ${e}`));
+			await wakeDevices(logger, builder).catch(e => logger.warn(`could not wake ${builder.deviceId}: ${e}`));
 		}
 		done();
 	});
