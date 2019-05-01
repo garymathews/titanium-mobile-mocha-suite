@@ -864,6 +864,7 @@ describe('Titanium.UI.ListView', function () {
 		});
 
 		control.addEventListener('refreshend', function () {
+			nav.close();
 			finish();
 		});
 
@@ -872,11 +873,11 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it.windowsMissing('.refreshControl (Basic)', function (finish) {
-		var window, control, listView;
+		var control, listView;
 
-		window = Ti.UI.createWindow();
+		win = Ti.UI.createWindow();
 
-		window.addEventListener('open', function () {
+		win.addEventListener('open', function () {
 			control.beginRefreshing();
 		});
 
@@ -896,8 +897,8 @@ describe('Titanium.UI.ListView', function () {
 			finish();
 		});
 
-		window.add(listView);
-		window.open();
+		win.add(listView);
+		win.open();
 	});
 
 	it.android('listView with Ti.UI.Android.CardView', function (finish) {
