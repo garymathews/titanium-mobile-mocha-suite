@@ -289,7 +289,7 @@ function handleBuild(prc, next) {
 	let stderr = '';
 	let sawTestEnd = false;
 	let partialTestEnd = '';
-	let os_versions = {};
+	let devices = {};
 
 	const splitter = prc.stdout.pipe(StreamSplitter('\n'));
 	// Set encoding on the splitter Stream, so tokens come back as a String.
@@ -346,7 +346,10 @@ function handleBuild(prc, next) {
 		// obtain os version
 		if (token.includes('OS_VERSION')) {
 			const device = getDeviceName(token);
-			os_versions[device] = token.slice(token.indexOf('OS_VERSION') + 12).trim();
+			devices[device] = {
+				version: token.slice(token.indexOf('OS_VERSION') + 12).trim(),
+				completed: false
+			};
 			return;
 		}
 
@@ -354,12 +357,27 @@ function handleBuild(prc, next) {
 		const testEndIndex = token.indexOf('!TEST_END: ');
 		if (testEndIndex !== -1) {
 			const device = getDeviceName(token);
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, os_versions[device]);
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
 			return;
 		}
 
 		// check for suite end
 		if (token.includes('!TEST_RESULTS_STOP!')) {
+
+			// device completed tests
+			const device = getDeviceName(token);
+			devices[device].completed = true;
+
+			// check if all devices have completed tests
+			for (const d in devices) {
+
+				// not all devices have completed tests
+				// continue without processing results
+				if (!devices[d].completed) {
+					return;
+				}
+			}
+
 			prc.kill(); // ok, tests finished as expected, kill the process
 			return next(null, { date: (new Date()).toISOString(), results: results });
 		}
