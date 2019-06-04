@@ -318,7 +318,7 @@ function handleBuild(prc, next) {
 	}
 
 	function getDeviceName(token) {
-		let segments = token.split(']');
+		let segments = token.substring(0, token.indexOf('!')).split(']');
 		if (segments.length > 1 && segments[1].includes(':') && segments[1].includes('[')) {
 			return segments[1].split('[')[1].trim();
 		}
@@ -357,7 +357,7 @@ function handleBuild(prc, next) {
 		const testEndIndex = token.indexOf('!TEST_END: ');
 		if (testEndIndex !== -1) {
 			const device = getDeviceName(token);
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device] && devices[device].version);
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
 			return;
 		}
 
