@@ -357,7 +357,7 @@ function handleBuild(prc, next) {
 		const testEndIndex = token.indexOf('!TEST_END: ');
 		if (testEndIndex !== -1) {
 			const device = getDeviceName(token);
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device] && devices[device].version);
 			return;
 		}
 
