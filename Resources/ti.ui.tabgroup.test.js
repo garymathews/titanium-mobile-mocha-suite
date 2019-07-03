@@ -18,7 +18,7 @@ describe('Titanium.UI.TabGroup', function () {
 
 	afterEach(function (done) {
 		if (tabGroup) {
-			// If `win` is already closed, we're done.
+			// If `tabGroup` is already closed, we're done.
 			let t = setTimeout(function () {
 				if (tabGroup) {
 					tabGroup = null;
@@ -48,7 +48,10 @@ describe('Titanium.UI.TabGroup', function () {
 
 		const map = require('ti.map');
 		const mapView = map.createView({ top: 0, height: '80%' });
-		mapView.addEventListener('complete', () => finish());
+		mapView.addEventListener('complete', function listener () {
+			mapView.removeEventListener('complete', listener);
+			finish();
+		});
 
 		const win = Ti.UI.createWindow();
 		win.add(mapView);
