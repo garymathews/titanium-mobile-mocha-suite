@@ -589,7 +589,7 @@ describe('Titanium.UI.WebView', function () {
 	// Verifies local HTML file can access local JS file and invoke an HTML "onload" callback.
 	it.windowsMissing('html-script-tag', function (finish) {
 		this.slow(3000);
-		this.timeout(5000);
+		this.timeout(10000);
 
 		Ti.App.addEventListener('ti.ui.webview.script.tag:onPageLoaded', function () {
 			finish();
