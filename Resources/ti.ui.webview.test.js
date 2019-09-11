@@ -395,18 +395,13 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	it('#evalJS(string, function) - async variant', function (finish) {
-		var webview,
-			hadError = false;
+		let webview = Ti.UI.createWebView();
+
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 
-		webview = Ti.UI.createWebView();
-
 		webview.addEventListener('load', function () {
-			if (hadError) {
-				return;
-			}
 
 			// FIXME: Android is dumb and assumes no trailing semicolon!
 			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST"', function (result) {
@@ -423,17 +418,11 @@ describe('Titanium.UI.WebView', function () {
 				}
 			});
 		});
-		win.addEventListener('focus', function () {
-			try {
-				webview.url = 'ti.ui.webview.test.html';
-			} catch (err) {
-				hadError = true;
-				finish(err);
-			}
-		});
 
 		win.add(webview);
 		win.open();
+
+		webview.url = 'ti.ui.webview.test.html';
 	});
 
 	it('should handle file URLs with spaces in path - TIMOB-18765', function (finish) {
