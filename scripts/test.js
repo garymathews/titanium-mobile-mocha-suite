@@ -258,6 +258,7 @@ function runBuild(platform, target, deviceId, architecture, next) {
 		'--project-dir', PROJECT_DIR,
 		'--platform', platform,
 		'--target', target,
+		'--deploy-type', 'test',
 		'--log-level', 'info'
 	];
 	if (platform === 'ios') {
