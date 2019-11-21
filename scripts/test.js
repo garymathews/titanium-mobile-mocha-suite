@@ -370,6 +370,19 @@ function handleBuild(prc, next) {
 	splitter.on('token', function (token) {
 		console.log(token);
 
+		// Workaround to launch iOS application on device.
+		if (token.includes('Please manually launch the application')) {
+			console.log('Launching application using ios-deploy');
+			const deploy = spawn('ios-deploy', [ '-L', '-b', path.join(__dirname, 'mocha/build/iphone/build/Products/Debug-iphoneos/mocha.app') ]);
+			let result = '';
+			deploy.stdout.on('data', data => {
+				result += data;
+			});
+			deploy.on('close', _ => {
+				console.log(result);
+			});
+		}
+
 		// we saw test end before, but failed to parse as JSON because we got partial output, so continue
 		// trying until it's happy (and resets sawTestEnd to false)
 		if (sawTestEnd) {
