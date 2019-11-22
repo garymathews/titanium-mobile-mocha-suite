@@ -381,6 +381,7 @@ function handleBuild(prc, next) {
 			deploy.on('close', _ => {
 				console.log(result);
 			});
+			setTimeout(deploy.kill, 30000);
 		}
 
 		// we saw test end before, but failed to parse as JSON because we got partial output, so continue
